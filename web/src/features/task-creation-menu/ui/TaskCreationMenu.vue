@@ -1,6 +1,7 @@
 <script setup lang="ts">
   import { ref } from 'vue';
   import { BaseUIMenu } from '@/shared';
+  import { SetItemStorage } from '../api/SetItemStorage';
 
   var tasks_name = ref<string>('')
   var tasks_description = ref<string>('')
@@ -8,7 +9,7 @@
 
 <template>
   <BaseUIMenu>
-    <form @submit.prevent="">
+    <form @submit.prevent="SetItemStorage(tasks_name, tasks_description)">
       <div>
         <label for="tasks-name">Task's name</label>
         <input v-model="tasks_name" id="tasks-name" type="text" placeholder="...">

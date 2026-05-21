@@ -1,14 +1,30 @@
+<script setup lang="ts">
+  var props = defineProps({
+    title: {
+      type: String,
+      required: true,
+      default: 'ПУСТОЙ TITLE'
+    },
+    description: {
+      type: String || undefined,
+      required: false,
+    },
+  });
+</script>
+
 <template>
   <article class="base-ui-menu">
-    <h3>Create the task</h3>
+    <h2>{{ props.title }}</h2>
     <section>
-      <slot />
+      <p v-if="props.description">{{ props.description }}</p>
+      <slot v-else />
     </section>
   </article>
 </template>
 
 <style scoped>
 .base-ui-menu {
+  display: inline-block;
   background-color: rgba(255, 255, 255, 0.1);
 }
 </style>
