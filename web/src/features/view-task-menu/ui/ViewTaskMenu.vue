@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { BaseUIMenu } from '@/shared';
-  import { GetItemStorage } from '../api/GetItemStorage';
+  import { GetItemStorage } from '../lib/GetItemStorage';
   var props = defineProps({
     title: {
       type: String,

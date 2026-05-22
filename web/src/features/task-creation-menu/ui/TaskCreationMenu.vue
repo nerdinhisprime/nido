@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import { ref } from 'vue';
   import { BaseUIMenu } from '@/shared';
-  import { SetItemStorage } from '../api/SetItemStorage';
+  import { SetItemStorage } from '../lib/SetItemStorage';
 
   var tasks_name = ref<string>('')
   var tasks_description = ref<string>('')
