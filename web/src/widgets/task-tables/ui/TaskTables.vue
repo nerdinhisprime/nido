@@ -4,11 +4,14 @@
   import { TaskCreationMenu } from '@/features/task-creation-menu';
   import { ViewTaskMenu } from '@/features/view-task-menu';
   import { GetKeysStorageArray } from '../lib/GetKeysStorage';
+  import { RemoveItemStorage } from '@/features/remove-item-storage';
+  import { RemoveItemMenu } from '@/features/remove-item-menu';
 
   const tasks = computed(() => GetKeysStorageArray());
   const isOpenTask = ref<string | null>(null);
   const isCreatingTask = ref<boolean>(false);
   const draggedItemIndex = ref<number | null>(null);
+  var isOpenTest = ref(false)
 
   const toggleCurrentKey = (key: string) => {
     isOpenTask.value = key;
@@ -34,6 +37,7 @@
 
     draggedItemIndex.value = null;
   };
+  var closeRemoveItemMenu = (msg: boolean) => isOpenTest.value = msg;
 </script>
 
 <template>
@@ -46,20 +50,19 @@
         :key="value"
         :title="value"
         @click="toggleCurrentKey(value)"
+        :class="{ 'is-dragging': draggedItemIndex === index}"
         draggable="true"
         @dragstart="onDragStart($event, index)"
         @dragover.prevent
         @drop="onDrop(index)"
-        :class="{ 'is-dragging': draggedItemIndex === index}"
-      />
+      >
+        <RemoveItemStorage @click.prevent.stop="isOpenTest = !isOpenTest" />
+      </BaseUICard>
     </section>
-    <Teleport v-if="isCreatingTask || isOpenTask" to="body">
-      <TaskCreationMenu v-if="isCreatingTask" />
-      <ViewTaskMenu
-        v-else-if="isOpenTask !== null"
-        :title="isOpenTask" 
-      />
-    </Teleport>
+
+    <TaskCreationMenu :isOpen="isCreatingTask" />
+    <ViewTaskMenu :isOpen="isOpenTask !== null" v-if="isOpenTask !== null" :title="isOpenTask" />
+    <RemoveItemMenu :isOpen="isOpenTest" @close-menu="closeRemoveItemMenu" :removeItemId="isOpenTask" />
   </article>
 </template>
 

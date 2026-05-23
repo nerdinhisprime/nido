@@ -18,14 +18,15 @@
     <h4>{{ props.title }}</h4>
     <section>
       <p>{{ props.description }}</p>
+      <slot />
     </section>
   </article>
 </template>
 
 <style scoped>
 .base-ui-card {
-  width: 100px;
-  aspect-ratio: 1;
+  width: 230px;
+  height: 170px;
   text-align: center;
   background-color: rgba(255, 255, 255, 0.1);
   cursor: pointer;

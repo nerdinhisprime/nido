@@ -1,20 +1,28 @@
 <script setup lang="ts">
-  import { BaseUIMenu } from '@/shared';
+  import { BaseUIMenu, ModalUIMenu } from '@/shared';
   import { GetItemStorage } from '../lib/GetItemStorage';
   var props = defineProps({
     title: {
       type: String,
-      required: true,
-      default: 'ПУСТОЙ TITLE'
+      required: false,
+      default: 'EMPTY TITLE'
     },
     description: {
       type: String,
       required: false,
-      default: 'ПУСТОЙ TITLE'
+      default: 'EMPTY DESCRIPTION'
+    },
+    isOpen: {
+      type: Boolean,
+      required: true,
     },
   });
 </script>
 
 <template>
-  <BaseUIMenu :title="props.title" :description="GetItemStorage(props.title)" />
+  <ModalUIMenu :isOpen="isOpen">
+    <BaseUIMenu :title="props.title">
+    <p>{{ GetItemStorage(props.title) }}</p>
+    </BaseUIMenu>
+  </ModalUIMenu>
 </template>

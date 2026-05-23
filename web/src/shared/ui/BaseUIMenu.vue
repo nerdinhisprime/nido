@@ -3,10 +3,10 @@
     title: {
       type: String,
       required: true,
-      default: 'ПУСТОЙ TITLE'
+      default: 'Empty TITLE'
     },
     description: {
-      type: String || undefined,
+      type: String || undefined ,
       required: false,
     },
   });
