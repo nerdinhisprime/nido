@@ -1,24 +1,27 @@
 <script setup lang="ts">
-  var props = defineProps({
-    title: {
-      type: String,
-      required: true, // Проп обязателен
-      default: 'WHERE IS A TITLE???'
-    },
-    description: {
-      type: String,
-      required: false,
-      default: ''
-    }
-  });
+  import { getDateData } from '../lib/BaseUICard';
+  interface Props {
+    title?: string;
+    description?: string;
+    showCreationDate?: boolean;
+  }
+
+  const {
+    title = 'WHERE IS MY TITLE???!',
+    description,
+    showCreationDate = false
+  } = defineProps<Props>();
 </script>
 
 <template>
   <article class="base-ui-card">
-    <h4>{{ props.title }}</h4>
+    <h4>{{ title }}</h4>
     <section>
-      <p>{{ props.description }}</p>
+      <p>{{ description }}</p>
       <slot />
+      <p v-if="showCreationDate">
+        Created: <time datetime="2026-05-23">{{ getDateData(title) }}</time>
+      </p>
     </section>
   </article>
 </template>

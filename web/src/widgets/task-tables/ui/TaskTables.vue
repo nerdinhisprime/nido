@@ -35,6 +35,7 @@
         @dragstart="onDragStart($event, i)"
         @dragover.prevent
         @drop="onDrop(i)"
+        :showCreationDate="true"
       >
         <RemoveItemStorage @click.prevent.stop="isOpenTest = !isOpenTest" />
       </BaseUICard>
@@ -49,7 +50,7 @@
 <style scoped>
 .task-table {
   display: flex;
-  column-gap: 1em;
+  gap: 1em;
   flex-wrap: wrap;
 }
 .is-dragging {

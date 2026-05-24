@@ -24,7 +24,11 @@
 
 <style scoped>
 .base-ui-menu {
+  position: absolute;
   display: inline-block;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   background-color: rgba(255, 255, 255, 0.1);
 }
 </style>
