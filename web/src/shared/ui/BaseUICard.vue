@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { getDateData } from '../lib/BaseUICard';
+  import { GetCreationDate } from '../lib/GetCreationDate';
   interface Props {
     title?: string;
     description?: string;
@@ -20,7 +20,7 @@
       <p>{{ description }}</p>
       <slot />
       <p v-if="showCreationDate">
-        Created: <time datetime="2026-05-23">{{ getDateData(title) }}</time>
+        Created: <time datetime="2026-05-23">{{ GetCreationDate(title) }}</time>
       </p>
     </section>
   </article>

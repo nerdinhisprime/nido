@@ -1,5 +1,5 @@
-export interface taskDataTypes {
-  taskName: string;
-  taskDescription: string;
-  taskCreationData: string;
+export interface Props {
+  title: string;
+  description?: string;
+  showCreationDate?: boolean;
 }

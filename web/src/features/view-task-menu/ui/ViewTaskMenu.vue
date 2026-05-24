@@ -1,6 +1,9 @@
 <script setup lang="ts">
   import { BaseUIMenu, ModalUIMenu } from '@/shared';
   import { GetItemStorage } from '../lib/GetItemStorage';
+
+  var model = defineModel('isOpen', { default: false });
+
   var props = defineProps({
     title: {
       type: String,
@@ -20,9 +23,9 @@
 </script>
 
 <template>
-  <ModalUIMenu :isOpen="isOpen">
+  <ModalUIMenu v-model:isOpen="model">
     <BaseUIMenu :title="props.title">
-    <p>{{ GetItemStorage(props.title) }}</p>
+      <p>{{ GetItemStorage(props.title) }}</p>
     </BaseUIMenu>
   </ModalUIMenu>
 </template>

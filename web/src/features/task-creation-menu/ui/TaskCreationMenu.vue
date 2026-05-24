@@ -2,11 +2,10 @@
   import { reactive } from 'vue';
   import { BaseUIMenu, ModalUIMenu } from '@/shared';
   import { SetItemStorage } from '../lib/SetItemStorage';
-  import { taskDataTypes } from '@/shared/lib';
 
-  defineProps<{ isOpen: boolean }>();
+  var model = defineModel('isOpen', { default: false })
 
-  var taskData = reactive<taskDataTypes>({
+  var taskData = reactive({
     taskName: '',
     taskDescription: '',
     taskCreationData: new Intl.DateTimeFormat('en-CA').format(new Date()),
@@ -14,7 +13,7 @@
 </script>
 
 <template>
-  <ModalUIMenu :isOpen="isOpen">
+  <ModalUIMenu v-model:isOpen="model">
     <BaseUIMenu title="Crete task">
       <form @submit.prevent="SetItemStorage(taskData.taskName, taskData)">
         <div>

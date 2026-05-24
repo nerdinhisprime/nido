@@ -1,7 +1,9 @@
 <script setup lang="ts">
   import { onBeforeMount } from 'vue';
   import { TELEPORT_TARGET } from '../config/teleports';
-  defineProps<{ isOpen: boolean }>();
+  import { BackdropZone } from '..';
+
+  var model = defineModel<boolean>('isOpen', { default: false });
 
   onBeforeMount(() => {
     const targetId = TELEPORT_TARGET.MODAL.replace('#', '')
@@ -15,8 +17,8 @@
 
 <template>
   <Teleport :to="TELEPORT_TARGET.MODAL">
-    <div v-if="isOpen">
+    <BackdropZone @click="model = !model" v-if="model">
       <slot />
-    </div>
+    </BackdropZone>
   </Teleport>
 </template>

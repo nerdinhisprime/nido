@@ -1,1 +1,1 @@
-export var GetItemStorage = (key: string) => localStorage.getItem(key);
+export var GetItemStorage = (key: string) => JSON.parse(localStorage.getItem(key)).taskDescription;
