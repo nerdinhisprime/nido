@@ -13,7 +13,7 @@
 </script>
 
 <template>
-  <article class="base-ui-menu">
+  <article @click.stop class="base-ui-menu">
     <h2>{{ props.title }}</h2>
     <section>
       <p v-if="props.description">{{ props.description }}</p>
