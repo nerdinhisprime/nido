@@ -5,31 +5,19 @@
   import { RemoveItemStorage } from '@/features/remove-item-storage';
   import { RemoveItemMenu } from '@/features/remove-item-menu';
   import { index } from '../lib/index';
-  import { computed } from 'vue';
-
-// Имя переменной isOpenTask у тебя уже есть, создаем computed рядом:
-const isTaskMenuOpen = computed({
-  get() {
-    return isOpenTask.value !== null;
-  },
-  set(newValue) {
-    if (!newValue) {
-      isOpenTask.value = null; // Когда модель становится false, сбрасываем таску
-    }
-  }
-});
 
   const {
     tasks,
     isOpenTask,
-    isOpenTest,
+    openRemoveKeyMenu,
+    taskKeyRemove,
     isCreatingTask,
     draggedItemIndex,
+    isTaskMenuOpen,
     toggleCurrentKey,
     toggleCreation,
     onDragStart,
     onDrop,
-    closeRemoveItemMenu,
   } = index();
 </script>
 
@@ -42,7 +30,7 @@ const isTaskMenuOpen = computed({
         v-for="(v, i) in tasks"
         :key="v"
         :title="v"
-        @click="toggleCurrentKey(v)"
+        @click.stop="toggleCurrentKey(v)"
         :class="{ 'is-dragging': draggedItemIndex === i}"
         draggable="true"
         @dragstart="onDragStart($event, i)"
@@ -50,13 +38,15 @@ const isTaskMenuOpen = computed({
         @drop="onDrop(i)"
         :showCreationDate="true"
       >
-        <RemoveItemStorage @click.prevent.stop="isOpenTest = !isOpenTest" />
+        <RemoveItemStorage 
+          @click.stop="taskKeyRemove = v; openRemoveKeyMenu = true" 
+        />
       </BaseUICard>
     </section>
 
     <TaskCreationMenu v-model:isOpen="isCreatingTask" />
     <ViewTaskMenu v-model:isOpen="isTaskMenuOpen" v-if="isOpenTask !== null" :title="isOpenTask" />
-    <RemoveItemMenu v-model:isOpen="isOpenTest" :removeItemId="isOpenTask" />
+    <RemoveItemMenu v-model:isOpen="openRemoveKeyMenu" :removeItemId="taskKeyRemove" />
   </article>
 </template>
 

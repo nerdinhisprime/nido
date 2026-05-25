@@ -1,1 +1,1 @@
-export var RemoveItemStorage = (id: string | null) => {console.log(id)};
+export var RemoveItemStorage = (id: string) => localStorage.removeItem(id);
