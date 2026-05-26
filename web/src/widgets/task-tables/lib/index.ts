@@ -5,7 +5,9 @@ export var index = () => {
   var tasks = ref<string[]>(GetKeysStorageArray());
   var isOpenTask = ref<string | null>(null);
   var taskKeyRemove = ref<string>('');
-  var openRemoveKeyMenu = ref(false)
+  var taskKeyRedactor = ref<string>('');
+  var openRemoveKeyMenu = ref(false);
+  var openRedactorMenu = ref(false);
   var isCreatingTask = ref<boolean>(false);
   var draggedItemIndex = ref<number | null>(null);
   var isTaskMenuOpen = computed({
@@ -51,7 +53,9 @@ export var index = () => {
     tasks,
     isOpenTask,
     openRemoveKeyMenu,
+    openRedactorMenu,
     taskKeyRemove,
+    taskKeyRedactor,
     isCreatingTask,
     draggedItemIndex,
     isTaskMenuOpen,

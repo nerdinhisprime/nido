@@ -1,8 +1,8 @@
 <script setup lang="ts">
   import { ref } from 'vue';
-  import { BaseUIMenu, ModalUIMenu, TrashButton } from '@/shared';
+  import { BaseUIMenu, ModalUIMenu, TrashButton, PenButton } from '@/shared';
   import { GetItemDescription } from '../lib/GetItemDescription';
-  import { RemoveItemMenu } from '@/features/remove-item-menu';
+  import { DeleteTaskMenu } from '@/features/delete-task-menu';
 
   var openRemoveItemMenu = ref(false);
   var model = defineModel('isOpen', { default: false });
@@ -20,7 +20,8 @@
     <BaseUIMenu :title="props.title">
       <p>{{ GetItemDescription(props.title) }}</p>
       <TrashButton @click="openRemoveItemMenu = true" />
+      <PenButton />
     </BaseUIMenu>
   </ModalUIMenu>
-  <RemoveItemMenu v-model:isOpen="openRemoveItemMenu" :removeItemId="props.title" />
+  <DeleteTaskMenu v-model:isOpen="openRemoveItemMenu" :removeItemId="props.title" />
 </template>

@@ -1,15 +1,18 @@
 <script setup lang="ts">
   import { BaseUICard, PenButton, TrashButton } from '@/shared';
-  import { TaskCreationMenu } from '@/features/task-creation-menu';
+  import { CreateTaskMenu } from '@/features/create-task-menu';
   import { ViewTaskMenu } from '@/features/view-task-menu';
-  import { RemoveItemMenu } from '@/features/remove-item-menu';
+  import { DeleteTaskMenu } from '@/features/delete-task-menu';
+  import { EditTaskMenu } from '@/features/edit-task-menu';
   import { index } from '../lib/index';
 
   const {
     tasks,
     isOpenTask,
     openRemoveKeyMenu,
+    openRedactorMenu,
     taskKeyRemove,
+    taskKeyRedactor,
     isCreatingTask,
     draggedItemIndex,
     isTaskMenuOpen,
@@ -21,8 +24,6 @@
 </script>
 
 <template>
-  <PenButton />
-  <TrashButton />
   <article>
     <h2>task table</h2>
     <section class="task-table">
@@ -39,15 +40,15 @@
         @drop="onDrop(i)"
         :showCreationDate="true"
       >
-        <TrashButton
-          @click.stop="taskKeyRemove = v; openRemoveKeyMenu = true" 
-        />
+        <TrashButton @click.stop="taskKeyRemove = v; openRemoveKeyMenu = true" />
+        <PenButton @click.stop="taskKeyRedactor = v; openRedactorMenu = true" />
       </BaseUICard>
     </section>
 
-    <TaskCreationMenu v-model:isOpen="isCreatingTask" />
+    <CreateTaskMenu v-model:isOpen="isCreatingTask" />
     <ViewTaskMenu v-model:isOpen="isTaskMenuOpen" v-if="isOpenTask !== null" :title="isOpenTask" />
-    <RemoveItemMenu v-model:isOpen="openRemoveKeyMenu" :removeItemId="taskKeyRemove" />
+    <DeleteTaskMenu v-model:isOpen="openRemoveKeyMenu" :removeItemId="taskKeyRemove" />
+    <EditTaskMenu v-model:isOpen="openRedactorMenu" :editTaskTitle="taskKeyRedactor" />
   </article>
 </template>
 
