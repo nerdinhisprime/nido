@@ -1,8 +1,7 @@
 <script setup lang="ts">
-  import { BaseUICard } from '@/shared';
+  import { BaseUICard, PenButton, TrashButton } from '@/shared';
   import { TaskCreationMenu } from '@/features/task-creation-menu';
   import { ViewTaskMenu } from '@/features/view-task-menu';
-  import { RemoveItemStorage } from '@/features/remove-item-storage';
   import { RemoveItemMenu } from '@/features/remove-item-menu';
   import { index } from '../lib/index';
 
@@ -22,6 +21,8 @@
 </script>
 
 <template>
+  <PenButton />
+  <TrashButton />
   <article>
     <h2>task table</h2>
     <section class="task-table">
@@ -38,7 +39,7 @@
         @drop="onDrop(i)"
         :showCreationDate="true"
       >
-        <RemoveItemStorage 
+        <TrashButton
           @click.stop="taskKeyRemove = v; openRemoveKeyMenu = true" 
         />
       </BaseUICard>
