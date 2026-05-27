@@ -1,12 +1,17 @@
 <script setup lang="ts">
-  import { ref } from 'vue';
+  import { reactive } from 'vue';
   import { BaseUIMenu, ModalUIMenu, TrashButton, PenButton } from '@/shared';
-  import { GetItemDescription } from '../lib/GetItemDescription';
   import { DeleteTaskMenu } from '@/features/delete-task-menu';
+  import { EditTaskMenu } from '@/features/edit-task-menu';
+  import { GetItemDescription } from '../lib/GetItemDescription';
 
-  var openRemoveItemMenu = ref(false);
+  var open = reactive({
+    removeTaskMenu: false,
+    editTaskMenu: false,
+  });
+
   var model = defineModel('isOpen', { default: false });
-  var props = defineProps({
+  defineProps({
     title: {
       type: String,
       required: false,
@@ -17,11 +22,12 @@
 
 <template>
   <ModalUIMenu v-model:isOpen="model">
-    <BaseUIMenu :title="props.title">
-      <p>{{ GetItemDescription(props.title) }}</p>
-      <TrashButton @click="openRemoveItemMenu = true" />
-      <PenButton />
+    <BaseUIMenu :title="title">
+      <p>{{ GetItemDescription(title) }}</p>
+      <TrashButton @click="open.removeTaskMenu = true" />
+      <PenButton @click="open.editTaskMenu = true" />
     </BaseUIMenu>
   </ModalUIMenu>
-  <DeleteTaskMenu v-model:isOpen="openRemoveItemMenu" :removeItemId="props.title" />
+  <DeleteTaskMenu v-model:isOpen="open.removeTaskMenu" :removeItemId="title" />
+  <EditTaskMenu v-model:isOpen="open.editTaskMenu" :editTaskTitle="title"/>
 </template>
