@@ -1,10 +1,12 @@
 <script setup lang="ts">
-  import { BaseUICard, PenButton, TrashButton } from '@/shared';
+  import { BaseUICard, PenButton, TrashButton, MenuToggle } from '@/shared';
   import { CreateTaskMenu } from '@/features/create-task-menu';
   import { ViewTaskMenu } from '@/features/view-task-menu';
   import { DeleteTaskMenu } from '@/features/delete-task-menu';
   import { EditTaskMenu } from '@/features/edit-task-menu';
   import { index } from '../lib/index';
+  import { ref } from 'vue';
+  const show = ref(false);
 
   const {
     tasks,
@@ -40,8 +42,16 @@
         @drop="onDrop(i)"
         :showCreationDate="true"
       >
-        <TrashButton @click.stop="taskKeyRemove = v; openRemoveKeyMenu = true" />
-        <PenButton @click.stop="taskKeyRedactor = v; openRedactorMenu = true" />
+        <MenuToggle>
+          <TrashButton
+            @click.stop="taskKeyRemove = v; openRemoveKeyMenu = true"
+            btn-title="Delete"
+          />
+          <PenButton
+            @click.stop="taskKeyRedactor = v; openRedactorMenu = true"
+            btn-title="Change the title"
+          />
+        </MenuToggle>
       </BaseUICard>
     </section>
 

@@ -4,5 +4,6 @@ import ModalUIMenu from "./ui/ModalUIMenu.vue";
 import BackdropZone from "./ui/BackdropZone.vue";
 import TrashButton from "./ui/TrashButton.vue";
 import PenButton from "./ui/PenButton.vue";
+import MenuToggle from "./ui/MenuToggle.vue";
 
-export { BaseUICard, BaseUIMenu, ModalUIMenu, BackdropZone, TrashButton, PenButton };
+export { BaseUICard, BaseUIMenu, ModalUIMenu, BackdropZone, TrashButton, PenButton, MenuToggle };
