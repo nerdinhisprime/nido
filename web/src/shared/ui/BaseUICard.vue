@@ -8,7 +8,7 @@
 
   const {
     title = 'WHERE IS MY TITLE???!',
-    description,
+    description = '',
     showCreationDate = false
   } = defineProps<Props>();
 </script>
@@ -28,8 +28,8 @@
 
 <style scoped>
 .base-ui-card {
-  width: 230px;
-  height: 170px;
+  width: 500px;
+  height: 100%;
   text-align: center;
   background-color: rgba(255, 255, 255, 0.1);
   cursor: pointer;

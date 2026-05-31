@@ -5,8 +5,6 @@
   import { DeleteTaskMenu } from '@/features/delete-task-menu';
   import { EditTaskMenu } from '@/features/edit-task-menu';
   import { index } from '../lib/index';
-  import { ref } from 'vue';
-  const show = ref(false);
 
   const {
     tasks,
@@ -66,7 +64,9 @@
 .task-table {
   display: flex;
   gap: 1em;
-  flex-wrap: wrap;
+  --flex-wrap: wrap;
+  width: 100vh;
+  height: 80vh
 }
 .is-dragging {
   opacity: 0.5;

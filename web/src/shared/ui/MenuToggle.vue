@@ -1,6 +1,5 @@
 <script setup lang="ts">
   import { ref } from 'vue';
-  import { ModalUIMenu } from '..';
   const isShow = ref<boolean>(false);
 </script>
 
