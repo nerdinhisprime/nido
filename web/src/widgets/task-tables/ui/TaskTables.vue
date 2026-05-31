@@ -6,6 +6,7 @@ import { ViewTaskMenu } from '@/features/view-task-menu';
 import { DeleteTaskMenu } from '@/features/delete-task-menu';
 import { EditTaskMenu } from '@/features/edit-task-menu';
 import { index } from '../lib/index';
+import { GetValueStorageFN } from '../lib/GetValueStorage';
 
 const {
   tasks,
@@ -23,6 +24,7 @@ const {
   onDrop,
 } = index();
 
+
 const activeIndex = ref<number>(0);
 
 const cardRefs = ref<InstanceType<typeof BaseUICard>[]>([]);
@@ -38,7 +40,7 @@ const scrollToActiveCard = () => {
         block: 'nearest',
         inline: 'center',
       });
-    }
+    };
   });
 };
 
@@ -48,14 +50,36 @@ const handleKeyDown = (e: KeyboardEvent) => {
       activeIndex.value++;
       scrollToActiveCard();
     }
-  }
+  };
 
   if (e.altKey && e.ctrlKey && e.key === 'h') {
     if (activeIndex.value > 0) {
       activeIndex.value--;
       scrollToActiveCard();
     }
-  }
+  };
+
+  if (e.altKey && e.ctrlKey && e.key === 'a') toggleCreation();
+
+  if (e.altKey && e.ctrlKey && e.key === 'd') {
+    if (activeIndex.value > 0 && tasks.value[activeIndex.value - 1]) {
+      taskKeyRemove.value = tasks.value[activeIndex.value - 1];
+      openRemoveKeyMenu.value = true;
+    };
+  };
+
+  if (
+    e.key === 'Enter' &&
+    activeIndex.value > 0 &&
+    tasks.value[activeIndex.value - 1]
+  ) toggleCurrentKey(tasks.value[activeIndex.value - 1])
+
+  if (e.key === 'Escape') {
+    openRemoveKeyMenu.value = false;
+    openRedactorMenu.value = false;
+    isCreatingTask.value = false;
+    isOpenTask.value = null;
+  };
 };
 
 onMounted(() => {
@@ -65,6 +89,8 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener('keydown', handleKeyDown);
 });
+
+
 </script>
 
 <template>
@@ -88,6 +114,7 @@ onUnmounted(() => {
           'is-dragging': draggedItemIndex === i,
           'active': activeIndex === i + 1 
         }"
+        :description="GetValueStorageFN(v)"
         draggable="true"
         @dragstart="onDragStart($event, i)"
         @dragover.prevent
