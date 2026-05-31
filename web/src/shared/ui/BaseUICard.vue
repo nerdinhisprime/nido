@@ -28,7 +28,7 @@
 
 <style scoped>
 .base-ui-card {
-  width: 500px;
+  min-width: 500px;
   height: 100%;
   text-align: center;
   background-color: rgba(255, 255, 255, 0.1);
