@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { TaskTables } from '@/widgets/task-tables';
+import { TaskTables } from "@/widgets/task-tables";
 </script>
 
 <template>

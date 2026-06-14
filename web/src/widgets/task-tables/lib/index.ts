@@ -1,16 +1,12 @@
 import { ref, computed } from 'vue';
 import { GetKeysStorageArray } from '../lib/GetKeysStorage';
 
-export var index = () => {
-  var tasks = ref<string[]>(GetKeysStorageArray());
-  var isOpenTask = ref<string | null>(null);
-  var taskKeyRemove = ref<string>('');
-  var taskKeyRedactor = ref<string>('');
-  var openRemoveKeyMenu = ref(false);
-  var openRedactorMenu = ref(false);
-  var isCreatingTask = ref<boolean>(false);
-  var draggedItemIndex = ref<number | null>(null);
-  var isTaskMenuOpen = computed({
+export const index = () => {
+  const arrOfTaskKeys = ref<string[]>(GetKeysStorageArray());
+
+  const isOpenTask = ref<string | null>(null);
+  const isCreatingTask = ref<boolean>(false);
+  const isTaskMenuOpen = computed({
     get() {
       return isOpenTask.value !== null;
     },
@@ -19,38 +15,45 @@ export var index = () => {
     },
   });
 
-  var toggleCurrentKey = (key: string) => {
+  const taskKeyRemove = ref<string>('');
+  const taskKeyRedactor = ref<string>('');
+  const openRemoveKeyMenu = ref(false);
+  const openRedactorMenu = ref(false);
+
+  const draggedItemIndex = ref<number | null>(null);
+
+  const toggleCurrentKey = (key: string) => {
     isOpenTask.value = key;
     isCreatingTask.value = false;
   };
 
-  var openDeleteMenu = (key: string) => {
+  const openDeleteMenu = (key: string) => {
     taskKeyRemove.value = key;
     openRemoveKeyMenu.value = true;
   }
 
-  var toggleCreation = () => {
+  const toggleCreation = () => {
     isCreatingTask.value = !isCreatingTask.value;
     isOpenTask.value = null;
   };
 
-  var onDragStart = (event: DragEvent, index: number) => {
+  const onDragStartFN = (event: DragEvent, index: number) => {
     draggedItemIndex.value = index;
     if (event.dataTransfer) event.dataTransfer.effectAllowed = 'move';
   };
 
-  var onDrop = (index: number) => {
+  const onDropEndFN = (index: number) => {
     if (draggedItemIndex.value === null || draggedItemIndex.value === index) return;
 
-    const draggedItem = tasks.value.splice(draggedItemIndex.value, 1)[0];
+    const draggedItem = arrOfTaskKeys.value.splice(draggedItemIndex.value, 1)[0];
 
-    tasks.value.splice(index, 0, draggedItem);
+    arrOfTaskKeys.value.splice(index, 0, draggedItem);
 
     draggedItemIndex.value = null;
   };
 
   return {
-    tasks,
+    arrOfTaskKeys,
     isOpenTask,
     openRemoveKeyMenu,
     openRedactorMenu,
@@ -62,7 +65,7 @@ export var index = () => {
     openDeleteMenu,
     toggleCurrentKey,
     toggleCreation,
-    onDragStart,
-    onDrop,
+    onDragStartFN,
+    onDropEndFN,
   };
 };

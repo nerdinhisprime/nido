@@ -1,15 +1,16 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, nextTick } from 'vue';
-import { BaseUICard, PenButton, TrashButton, MenuToggle } from '@/shared';
-import { CreateTaskMenu } from '@/features/create-task-menu';
-import { ViewTaskMenu } from '@/features/view-task-menu';
-import { DeleteTaskMenu } from '@/features/delete-task-menu';
-import { EditTaskMenu } from '@/features/edit-task-menu';
-import { index } from '../lib/index';
-import { GetValueStorageFN } from '../lib/GetValueStorage';
+import { onMounted, onUnmounted, ref } from "vue";
+import { index } from "../lib/index";
+import { BaseUICard, PenButton, TrashButton, MenuToggle } from "@/shared";
+import { CreateTaskMenu } from "@/features/create-task-menu";
+import { ViewTaskMenu } from "@/features/view-task-menu";
+import { DeleteTaskMenu } from "@/features/delete-task-menu";
+import { EditTaskMenu } from "@/features/edit-task-menu";
+import { GetValueStorageFN } from "../lib/GetValueStorage";
+import { KeyHooks } from "../lib/KeyHooks";
 
 const {
-  tasks,
+  arrOfTaskKeys,
   isOpenTask,
   openRemoveKeyMenu,
   openRedactorMenu,
@@ -20,77 +21,30 @@ const {
   isTaskMenuOpen,
   toggleCurrentKey,
   toggleCreation,
-  onDragStart,
-  onDrop,
+  onDragStartFN,
+  onDropEndFN,
 } = index();
 
-
-const activeIndex = ref<number>(0);
-
 const cardRefs = ref<InstanceType<typeof BaseUICard>[]>([]);
-
-const scrollToActiveCard = () => {
-  nextTick(() => {
-    const activeCardComponent = cardRefs.value[activeIndex.value];
-    const element = activeCardComponent?.$el || activeCardComponent;
-
-    if (element && typeof element.scrollIntoView === 'function') {
-      element.scrollIntoView({
-        behavior: 'smooth',
-        block: 'nearest',
-        inline: 'center',
-      });
-    };
-  });
-};
-
-const handleKeyDown = (e: KeyboardEvent) => {
-  if (e.altKey && e.ctrlKey && e.key === 'l') {
-    if (activeIndex.value < tasks.value.length) {
-      activeIndex.value++;
-      scrollToActiveCard();
-    }
-  };
-
-  if (e.altKey && e.ctrlKey && e.key === 'h') {
-    if (activeIndex.value > 0) {
-      activeIndex.value--;
-      scrollToActiveCard();
-    }
-  };
-
-  if (e.altKey && e.ctrlKey && e.key === 'a') toggleCreation();
-
-  if (e.altKey && e.ctrlKey && e.key === 'd') {
-    if (activeIndex.value > 0 && tasks.value[activeIndex.value - 1]) {
-      taskKeyRemove.value = tasks.value[activeIndex.value - 1];
-      openRemoveKeyMenu.value = true;
-    };
-  };
-
-  if (
-    e.key === 'Enter' &&
-    activeIndex.value > 0 &&
-    tasks.value[activeIndex.value - 1]
-  ) toggleCurrentKey(tasks.value[activeIndex.value - 1])
-
-  if (e.key === 'Escape') {
-    openRemoveKeyMenu.value = false;
-    openRedactorMenu.value = false;
-    isCreatingTask.value = false;
-    isOpenTask.value = null;
-  };
-};
+const { activeIndex, keyHooksFN } = KeyHooks({
+  cardRefs,
+  arrOfTaskKeys,
+  taskKeyRemove,
+  openRemoveKeyMenu,
+  openRedactorMenu,
+  isCreatingTask,
+  isOpenTask,
+  toggleCurrentKey,
+  toggleCreation
+})
 
 onMounted(() => {
-  window.addEventListener('keydown', handleKeyDown);
+  window.addEventListener("keydown", keyHooksFN);
 });
 
 onUnmounted(() => {
-  window.removeEventListener('keydown', handleKeyDown);
+  window.removeEventListener("keydown", keyHooksFN);
 });
-
-
 </script>
 
 <template>
@@ -105,20 +59,20 @@ onUnmounted(() => {
       />
 
       <BaseUICard
-        v-for="(v, i) in tasks"
+        v-for="(v, i) in arrOfTaskKeys"
         :key="v"
         ref="cardRefs"
         :title="v"
         @click.stop="toggleCurrentKey(v); activeIndex = i + 1"
         :class="{ 
           'is-dragging': draggedItemIndex === i,
-          'active': activeIndex === i + 1 
+          'active': activeIndex === i + 1
         }"
         :description="GetValueStorageFN(v)"
         draggable="true"
-        @dragstart="onDragStart($event, i)"
+        @dragstart="onDragStartFN($event, i)"
         @dragover.prevent
-        @drop="onDrop(i)"
+        @drop="onDropEndFN(i)"
         :showCreationDate="true"
       >
         <MenuToggle>

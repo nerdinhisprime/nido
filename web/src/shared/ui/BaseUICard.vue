@@ -1,16 +1,16 @@
 <script setup lang="ts">
-  import { GetCreationDate } from '../lib/GetCreationDate';
-  interface Props {
-    title?: string;
-    description?: string | null;
-    showCreationDate?: boolean;
-  }
+import { GetCreationDate } from "../lib/GetCreationDate";
+interface Props {
+	title?: string;
+	description?: string | null;
+	showCreationDate?: boolean;
+}
 
-  const {
-    title = 'WHERE IS MY TITLE???!',
-    description = '',
-    showCreationDate = false
-  } = defineProps<Props>();
+const {
+	title = "WHERE IS MY TITLE???!",
+	description = "",
+	showCreationDate = false,
+} = defineProps<Props>();
 </script>
 
 <template>
