@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { onBeforeMount } from 'vue';
-  import { TELEPORT_TARGET } from '../config/teleports';
+  import { TELEPORT_TARGET } from '../lib/teleports';
   import { BackdropZone } from '..';
 
   var model = defineModel<boolean>('isOpen', { default: false });

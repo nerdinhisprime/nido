@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref } from "vue";
+import { ref, onMounted, onUnmounted } from "vue";
 import { index } from "../lib/index";
 import { BaseUICard, PenButton, TrashButton, MenuToggle } from "@/shared";
 import { CreateTaskMenu } from "@/features/create-task-menu";
@@ -51,12 +51,12 @@ onUnmounted(() => {
   <article>
     <h2>task table</h2>
     <section class="task-table">
-      <BaseUICard 
+      <!--<BaseUICard 
         ref="cardRefs"
         title="+" 
         @click="toggleCreation" 
         :class="{ 'active': activeIndex === 0 }"
-      />
+/>-->
 
       <BaseUICard
         v-for="(v, i) in arrOfTaskKeys"
@@ -89,7 +89,8 @@ onUnmounted(() => {
     </section>
 
     <CreateTaskMenu v-model:isOpen="isCreatingTask" />
-    <ViewTaskMenu v-model:isOpen="isTaskMenuOpen" v-if="isOpenTask !== null" :title="isOpenTask" />
+    <!--<ViewTaskMenu v-model:isOpen="isTaskMenuOpen" v-if="isOpenTask !== null" :title="isOpenTask" />-->
+    <!--<div v-if="isOpenTask !== null" class="menu-content">chlen pisyaslava</div>-->
     <DeleteTaskMenu v-model:isOpen="openRemoveKeyMenu" :removeItemId="taskKeyRemove" />
     <EditTaskMenu v-model:isOpen="openRedactorMenu" :editTaskTitle="taskKeyRedactor" />
   </article>

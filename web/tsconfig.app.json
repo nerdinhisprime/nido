@@ -7,7 +7,7 @@
     "jsx": "preserve",
     "jsxImportSource": "vue",
     "lib": ["ESNext", "DOM", "DOM.Iterable"],
-    "baseUrl": ".",
+    "baseUrl": "./",
     "paths": {
       "@/*": ["src/*"],
       "@pages/*": ["src/pages"],

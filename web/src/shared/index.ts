@@ -6,5 +6,6 @@ import TrashButton from "./ui/TrashButton.vue";
 import PenButton from "./ui/PenButton.vue";
 import MenuToggle from "./ui/MenuToggle.vue";
 import PlusButton from "./ui/PlusButton.vue";
+import MarkdownEditor from "./ui/markdown-editor/MarkdownEditor.vue";
 
-export { BaseUICard, BaseUIMenu, ModalUIMenu, BackdropZone, TrashButton, PenButton, MenuToggle, PlusButton };
+export { BaseUICard, BaseUIMenu, ModalUIMenu, BackdropZone, TrashButton, PenButton, MenuToggle, PlusButton, MarkdownEditor };
