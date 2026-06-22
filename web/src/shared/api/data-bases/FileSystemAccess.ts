@@ -8,7 +8,7 @@ const idHandle = 'access'
 
 export const initFS = () => {
   const dirHandle = ref<FileSystemDirectoryHandle | null>(null)
-  const status = ref<string>('Директория не выбрана')
+  const status = ref<string | null>(null)
 
   const pickDirPath = async () => {
     try {
@@ -31,7 +31,7 @@ export const initFS = () => {
       const gotRecord: dirHandleTypes | undefined = await DB.get(OBJ_STORE_DIR_HANDLE, idHandle)
 
       if(!gotRecord || !gotRecord.descriptor) {
-        status.value = `Ранее доступа к целевой директории не было предоставлено`
+        status.value = `Pick a work dir`
         return
       }
 
@@ -39,7 +39,7 @@ export const initFS = () => {
       dirHandle.value = handle
       const currentPermission = await handle.queryPermission({ mode: 'readwrite' })
       if(currentPermission === 'granted') {
-        status.value = `Готов к работе, директория: ${handle.name}`
+        status.value = handle.name
       } else {
         status.value = `Директория ${handle.name} найдена, но прав на доступ нет`
       }
@@ -129,7 +129,9 @@ export const initFS = () => {
     }
   }
 
+  restoreAccess()
   return {
+    status,
     pickDirPath,
     restoreAccess,
     activateAccess,
