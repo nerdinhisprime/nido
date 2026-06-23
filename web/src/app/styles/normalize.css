@@ -1,2 +1,12 @@
 @font-face{font-family:'Favorite';src:url('../../shared/assets/fonts/ComicShannsMonoNerdFont-Bold.woff2')format('woff2');font-weight:400;font-style:normal}
 body,html{background-color:black;color:white;font-family:'Favorite';overflow:hidden;}
+dialog {
+  background-color: transparent;
+}
+dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px)
+}
+button {
+  cursor: pointer;
+}

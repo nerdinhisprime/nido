@@ -1,6 +1,5 @@
 <script setup lang="ts">
-  import { PickWorkDir } from '@/shared';
-  import { CreateTask } from '@/shared/ui/create-task';
+  import { PickWorkDir, CreateTask } from '@/shared';
 </script>
 
 <template>

@@ -1,3 +1,2 @@
-import PickWorkDir from "./ui/PickWorkDir.vue";
+export { default as PickWorkDir } from "./ui/PickWorkDir.vue";
 
-export { PickWorkDir };

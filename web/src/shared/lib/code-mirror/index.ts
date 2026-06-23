@@ -1,4 +1,4 @@
-import { onBeforeUnmount, onMounted, reactive, ref } from "vue";
+import { onBeforeUnmount, onMounted, reactive, ref, watch } from "vue";
 import { EditorState } from "@codemirror/state";
 import { EditorView, basicSetup } from "codemirror";
 import { oneDark } from '@codemirror/theme-one-dark';
@@ -14,6 +14,21 @@ export const initCodeMirror = () => {
   })
 
   let editorView: EditorView | null = null
+
+  watch(() => fromState.fileContent, (newContent) => {
+    if(!editorView) return
+
+    const currentContent = editorView.state.doc.toString()
+    if(newContent !== currentContent) {
+      editorView.dispatch({
+        changes: {
+          from: 0,
+          to: currentContent.length,
+          insert: newContent,
+        }
+      })
+    }
+  })
 
   onMounted(() => {
     if(!editorContainer.value) return

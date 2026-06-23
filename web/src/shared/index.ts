@@ -1,11 +1,28 @@
-import BaseUICard from "./ui/BaseUICard.vue";
-import BaseUIMenu from "./ui/BaseUIMenu.vue";
-import ModalUIMenu from "./ui/ModalUIMenu.vue";
-import BackdropZone from "./ui/BackdropZone.vue";
-import TrashButton from "./ui/TrashButton.vue";
-import PenButton from "./ui/PenButton.vue";
-import MenuToggle from "./ui/MenuToggle.vue";
-import PlusButton from "./ui/PlusButton.vue";
-import { PickWorkDir } from "./ui/pick-work-dir";
+// ./api
+export {
+  initFS,
+  initDB
+} from "./api";
 
-export { BaseUICard, BaseUIMenu, ModalUIMenu, BackdropZone, TrashButton, PenButton, MenuToggle, PlusButton, PickWorkDir };
+// ./lib
+export {
+  initCodeMirror
+} from "./lib";
+
+// ./ui
+export {
+  CustomDialog,
+  PickWorkDir,
+  CreateTask,
+  TasksList
+} from "./ui";
+
+// ./легаси
+export { default as BaseUICard } from "./ui/BaseUICard.vue";
+export { default as BaseUIMenu } from "./ui/BaseUIMenu.vue";
+export { default as ModalUIMenu } from "./ui/ModalUIMenu.vue";
+export { default as BackdropZone } from "./ui/BackdropZone.vue";
+export { default as TrashButton } from "./ui/TrashButton.vue";
+export { default as PenButton } from "./ui/PenButton.vue";
+export { default as MenuToggle } from "./ui/MenuToggle.vue";
+export { default as PlusButton } from "./ui/PlusButton.vue";
