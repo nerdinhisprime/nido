@@ -7,7 +7,8 @@ const MUITheme = EditorView.theme({
     color: "#e3e2e6",
     backgroundColor: "#1a1c1e",
     fontFamily: "JetBrains Mono, Fira Code, monospace",
-    overflow: "hidden"
+    overflow: "hidden",
+    borderRadius: '12px'
   },
   ".cm-scroller": { 
     lineHeight: "1.6",

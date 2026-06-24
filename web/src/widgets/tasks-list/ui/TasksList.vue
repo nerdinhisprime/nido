@@ -1,30 +1,66 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { useUpdateTasksList, CustomDialog } from '@/shared';
+import { useUpdateTasksList, useKeyPress } from '@/shared';
+
 const {
   filesArr,
-  fromState,
-  editorContainer,
-  loadDataCurrentFile,
-  writeFile
 } = useUpdateTasksList()
+
 const {
   editorContainer: secondECCopy,
   loadDataCurrentFile: secondLDCFCopy,
 } = useUpdateTasksList()
 
-const customDialogRef = ref<InstanceType<typeof CustomDialog> | null>(null)
+const editorWindowRef = ref<HTMLElement | null>(null)
+const tasksListRef = ref<HTMLElement | null>(null)
 const currentFileName = ref('')
+
+useKeyPress({
+  'ctrl+u': () => {
+    if (secondECCopy.value) {
+      secondECCopy.value.focus();
+    }
+  },
+  'ctrl+i': () => {
+    if (tasksListRef.value) {
+      const firstButton = tasksListRef.value.querySelector<HTMLButtonElement>('.files');
+      if (firstButton) firstButton.focus()
+      else tasksListRef.value.focus()
+    }
+  },
+  'ctrl+l': () => {
+    if (tasksListRef.value?.contains(document.activeElement)) {
+      const buttons = Array.from(tasksListRef.value.querySelectorAll<HTMLButtonElement>('.files'));
+      const currentIndex = buttons.indexOf(document.activeElement as HTMLButtonElement);
+      if (currentIndex !== -1) {
+        const nextIndex = (currentIndex + 1) % buttons.length;
+        buttons[nextIndex]?.focus();
+      }
+    }
+  },
+  'ctrl+h': () => {
+    if (tasksListRef.value?.contains(document.activeElement)) {
+      const buttons = Array.from(tasksListRef.value.querySelectorAll<HTMLButtonElement>('.files'));
+      const currentIndex = buttons.indexOf(document.activeElement as HTMLButtonElement);
+      if (currentIndex !== -1) {
+        const prevIndex = (currentIndex - 1 + buttons.length) % buttons.length;
+        buttons[prevIndex]?.focus();
+      }
+    }
+  }
+});
+
+
 </script>
 
 <template>
   <article>
-    <section class="files-list">
+    <section ref="tasksListRef" class="files-list" tabindex="-1">
       <button
         v-for="file in filesArr"
         :key="file.name"
         class="files"
-        @click="customDialogRef?.open(); loadDataCurrentFile(file.name)"
+        @click="editorWindowRef.focus()"
         @focus="currentFileName = file.name; secondLDCFCopy(file.name)"
       >
         {{ file.name }}
@@ -32,22 +68,14 @@ const currentFileName = ref('')
     </section>
   </article>
 
-  <article class="editor-window">
+  <article ref="editorWindowRef" tabindex="-1" class="editor-window">
     <input type="text" v-model="currentFileName" class="filename-input">
     <section>
-      <div ref="secondECCopy"></div>
+      <div
+        ref="secondECCopy"
+      ></div>
     </section>
   </article>
-  <CustomDialog ref="customDialogRef">
-    <div>
-      <input type="text" v-model="fromState.fileName">
-      <div ref="editorContainer"></div>
-      <button @click="writeFile(
-        fromState.fileName,
-        fromState.fileContent
-      )">submit</button>
-    </div>
-  </CustomDialog>
 </template>
 
 <style scoped>
@@ -65,7 +93,13 @@ const currentFileName = ref('')
   flex-direction: column;
   background-color: #1a1c1e;
   border-radius: 12px;
+  border: none;
 }
+
+.editor-window {
+  margin-top: 10px
+}
+
 .filename-input {
   width: 100%;
   height: 50px;

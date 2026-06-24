@@ -7,7 +7,8 @@ export {
 // ./lib
 export {
   useUpdateTasksList,
-  useCodeMirror
+  useCodeMirror,
+  useKeyPress,
 } from "./lib";
 
 // ./ui
