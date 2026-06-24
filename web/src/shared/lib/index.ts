@@ -1,2 +1,3 @@
 export { TELEPORT_TARGET } from './teleports'
-export { initCodeMirror } from './code-mirror/index'
+export { useCodeMirror } from './code-mirror/index'
+export { useUpdateTasksList } from './update-tasks-list'

@@ -6,7 +6,8 @@ export {
 
 // ./lib
 export {
-  initCodeMirror
+  useUpdateTasksList,
+  useCodeMirror
 } from "./lib";
 
 // ./ui
@@ -14,7 +15,7 @@ export {
   CustomDialog,
   PickWorkDir,
   CreateTask,
-  TasksList
+  UITrashButton,
 } from "./ui";
 
 // ./легаси

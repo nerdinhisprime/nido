@@ -1,11 +1,11 @@
 import { onBeforeUnmount, onMounted, reactive, ref, watch } from "vue";
 import { EditorState } from "@codemirror/state";
 import { EditorView, basicSetup } from "codemirror";
-import { oneDark } from '@codemirror/theme-one-dark';
 import { markdown } from "@codemirror/lang-markdown";
 import { vim } from "@replit/codemirror-vim";
+import { customMaterialTheme } from "./theme";
 
-export const initCodeMirror = () => {
+export const useCodeMirror = () => {
   const editorContainer = ref<HTMLDivElement | null>(null)
 
   const fromState = reactive({
@@ -42,7 +42,7 @@ export const initCodeMirror = () => {
     const startState = EditorState.create({
       extensions: [
         basicSetup,
-        oneDark,
+        customMaterialTheme,
         vim(),
         markdown(),
         updateListener,

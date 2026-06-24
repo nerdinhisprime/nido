@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { CustomDialog, initCodeMirror, initFS } from '@/shared';
+import { CustomDialog, useCodeMirror, initFS } from '@/shared';
 
 const childRef = ref<InstanceType<typeof CustomDialog> | null>(null)
-const { fromState, editorContainer } = initCodeMirror()
+const { fromState, editorContainer } = useCodeMirror()
 const { writeFile } = initFS()
 
 </script>

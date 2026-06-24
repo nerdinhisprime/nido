@@ -26,9 +26,8 @@ defineExpose({
 .article {
   display: flex;
   flex-direction: column;
-  padding: 25px;
-  width: 900px;
-  height: 600px;
+  width: 96vw;
+  height: 96vh;
   background-color: pink;
   box-sizing: border-box;
 }
@@ -36,8 +35,6 @@ defineExpose({
   overflow: hidden;
 }
 :deep(.cm-editor) {
-  min-height: 400px;
-  height: auto;
 }
 
 :deep(.cm-editor.cm-focused) {

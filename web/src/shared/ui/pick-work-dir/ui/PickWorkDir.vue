@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { initFS } from '@/shared/api';
+  import { initFS } from '@/shared';
   const { status, pickDirPath } = initFS()
 </script>
 
