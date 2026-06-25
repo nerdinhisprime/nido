@@ -16,3 +16,6 @@ button {
   cursor: pointer;
   background-color: wheat;
 }
+input {
+  outline: none;
+}

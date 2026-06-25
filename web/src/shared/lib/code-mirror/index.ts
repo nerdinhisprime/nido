@@ -1,4 +1,4 @@
-import { onBeforeUnmount, onMounted, reactive, ref, watch } from "vue";
+import { onBeforeUnmount, onMounted, reactive, ref, shallowRef, watch } from "vue";
 import { EditorState } from "@codemirror/state";
 import { EditorView, basicSetup } from "codemirror";
 import { markdown } from "@codemirror/lang-markdown";
@@ -13,14 +13,14 @@ export const useCodeMirror = () => {
     fileContent: '',
   })
 
-  let editorView: EditorView | null = null
+  const editorView = shallowRef<EditorView | null>(null)
 
   watch(() => fromState.fileContent, (newContent) => {
-    if(!editorView) return
+    if(!editorView.value) return
 
-    const currentContent = editorView.state.doc.toString()
+    const currentContent = editorView.value.state.doc.toString()
     if(newContent !== currentContent) {
-      editorView.dispatch({
+      editorView.value.dispatch({
         changes: {
           from: 0,
           to: currentContent.length,
@@ -48,15 +48,16 @@ export const useCodeMirror = () => {
         updateListener,
       ]
     })
-    editorView = new EditorView({
+
+    editorView.value = new EditorView({
       state: startState,
       parent: editorContainer.value,
     })
   })
 
   onBeforeUnmount(() => {
-    if(editorView) {
-      editorView.destroy()
+    if(editorView.value) {
+      editorView.value.destroy()
     }
   })
 
