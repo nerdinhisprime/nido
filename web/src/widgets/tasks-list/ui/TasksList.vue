@@ -1,113 +1,58 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-import { useUpdateTasksList, useKeyPress } from '@/shared';
+import { useGridNavigation } from '../model';
 
 const {
-  filesArr,
-} = useUpdateTasksList()
-
-const {
-  editorContainer: secondECCopy,
-  loadDataCurrentFile: secondLDCFCopy,
-} = useUpdateTasksList()
-
-const editorWindowRef = ref<HTMLElement | null>(null)
-const tasksListRef = ref<HTMLElement | null>(null)
-const currentFileName = ref('')
-
-useKeyPress({
-  'ctrl+u': () => {
-    if (secondECCopy.value) {
-      secondECCopy.value.focus();
-    }
-  },
-  'ctrl+i': () => {
-    if (tasksListRef.value) {
-      const firstButton = tasksListRef.value.querySelector<HTMLButtonElement>('.files');
-      if (firstButton) firstButton.focus()
-      else tasksListRef.value.focus()
-    }
-  },
-  'ctrl+l': () => {
-    if (tasksListRef.value?.contains(document.activeElement)) {
-      const buttons = Array.from(tasksListRef.value.querySelectorAll<HTMLButtonElement>('.files'));
-      const currentIndex = buttons.indexOf(document.activeElement as HTMLButtonElement);
-      if (currentIndex !== -1) {
-        const nextIndex = (currentIndex + 1) % buttons.length;
-        buttons[nextIndex]?.focus();
-      }
-    }
-  },
-  'ctrl+h': () => {
-    if (tasksListRef.value?.contains(document.activeElement)) {
-      const buttons = Array.from(tasksListRef.value.querySelectorAll<HTMLButtonElement>('.files'));
-      const currentIndex = buttons.indexOf(document.activeElement as HTMLButtonElement);
-      if (currentIndex !== -1) {
-        const prevIndex = (currentIndex - 1 + buttons.length) % buttons.length;
-        buttons[prevIndex]?.focus();
-      }
-    }
-  }
-});
-
-
+  metaarr,
+  gridContainer,
+  onFocusCell
+} = useGridNavigation();
 </script>
 
 <template>
   <article>
-    <section ref="tasksListRef" class="files-list" tabindex="-1">
-      <button
-        v-for="file in filesArr"
-        :key="file.name"
-        class="files"
-        @click="editorWindowRef.focus()"
-        @focus="currentFileName = file.name; secondLDCFCopy(file.name)"
+    <section ref="gridContainer" class="y_container">
+      <div 
+        v-for="(row, yIdx) in metaarr" 
+        :key="yIdx" 
+        class="x_container"
       >
-        {{ file.name }}
-      </button>
-    </section>
-  </article>
-
-  <article ref="editorWindowRef" tabindex="-1" class="editor-window">
-    <input type="text" v-model="currentFileName" class="filename-input">
-    <section>
-      <div
-        ref="secondECCopy"
-      ></div>
+        <button
+          v-for="(value, xIdx) in row"
+          :key="xIdx"
+          class="itemsarr"
+          tabindex="0"
+          :autofocus="yIdx === 0 && xIdx === 0"
+          @focus="onFocusCell(yIdx, xIdx as number)"
+        >
+          {{ value }}
+        </button>
+      </div>
     </section>
   </article>
 </template>
 
 <style scoped>
-.files-list {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
+.itemsarr {
+  height: 75px;
+  background-color: navajowhite;
+  color: black;
+  outline: none;
 }
-.files {
-  width: 100px;
-  aspect-ratio: 1;
+.itemsarr:focus {
+  background-color: papayawhip;
 }
-.editor-window {
+.y_container {
   display: flex;
   flex-direction: column;
-  background-color: #1a1c1e;
-  border-radius: 12px;
-  border: none;
+  gap: 10px;
+  overflow: hidden;
+  padding-block: 25vh;
+  box-sizing: border-box;
 }
 
-.editor-window {
-  margin-top: 10px
-}
-
-.filename-input {
-  width: 100%;
-  height: 50px;
-  font-size: 16px;
-  color: #e3e2e6;
-  background-color: transparent;
-  font-family: JetBrains Mono, Fira Code, monospace;
-  border: none;
-  outline: none;
+.x_container {
+  display: flex;
+  margin-inline: auto;
+  gap: 10px;
 }
 </style>
