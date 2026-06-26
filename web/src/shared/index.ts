@@ -17,6 +17,7 @@ export {
   PickWorkDir,
   CreateTask,
   UITrashButton,
+  UIFileEditor,
 } from "./ui";
 
 // ./легаси

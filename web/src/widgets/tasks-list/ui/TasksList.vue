@@ -1,10 +1,8 @@
 <script setup lang="ts">
 import { useGridNavigation } from '../model';
-import { useCodeMirror, initFS } from '@/shared';
+import { useCodeMirror, initFS, UIFileEditor } from '@/shared';
 
-const {
-  readFile,
-} = initFS()
+const { readFile } = initFS()
 const {
   fromState,
   editorContainer,
@@ -38,25 +36,23 @@ const handleFileFocus = async (xIdx: number, fileName: string) => {
         v-for="(row, yIdx) in metaarr" 
         :key="yIdx" 
         class="x_container"
->-->
+      >-->
       <div v-if="metaarr[0]" class="x_container">
-        <button
+        <UIFileEditor
           v-for="(value, xIdx) in metaarr[0]"
-          :key="xIdx"
-          class="itemsarr"
-          tabindex="0"
+          :key="value.label"
+          :fileName="value.label as string"
           :autofocus="xIdx === 0"
           @focus="handleFileFocus(xIdx as number, value.label as string)"
-        >
-          {{ value.label }}
-        </button>
+        />
       </div>
-      <div v-if="metaarr[1]" class="x_container">
+      <!--<div v-if="metaarr[1]" class="x_container">
         <input
           ref="inputRef"
           type="text"
           placeholder="file name"
           tabindex="0"
+          class="custom-input"
           @focus="onFocusCell(1, 0)"
         >
       </div>
@@ -68,33 +64,24 @@ const handleFileFocus = async (xIdx: number, fileName: string) => {
           @focus="onFocusCell(2, 0)"
         >
         </div>
-      </div>
+      </div>-->
     </section>
   </article>
 </template>
 
 <style scoped>
-.itemsarr {
-  height: 75px;
-  background-color: navajowhite;
-  color: black;
-  outline: none;
-}
-.itemsarr:focus {
-  background-color: papayawhip;
-}
 .y_container {
   display: flex;
   flex-direction: column;
   gap: 10px;
   overflow: hidden;
-  padding-block: 25vh;
+  /*padding-block: 25vh;*/
   box-sizing: border-box;
 }
 
 .x_container {
   display: flex;
-  margin-inline: auto;
+  margin: auto;
   gap: 10px;
 }
 </style>

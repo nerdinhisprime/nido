@@ -3,12 +3,13 @@ import { AppDBInstance, dirHandleTypes } from "./types/db.types"
 import { initDB } from "./IndexedDB"
 import { OBJ_STORE_DIR_HANDLE } from "./types/db.variables"
 
-
 const idHandle = 'access'
 
+const dirHandle = ref<FileSystemDirectoryHandle | null>(null)
+const status = ref<string | null>(null)
+let isRestoring: Promise<void> | null = null
+
 export const initFS = () => {
-  const dirHandle = ref<FileSystemDirectoryHandle | null>(null)
-  const status = ref<string | null>(null)
 
   const pickDirPath = async () => {
     try {
@@ -16,7 +17,7 @@ export const initFS = () => {
       dirHandle.value = rawHandle
 
       const DB: AppDBInstance = await initDB()
-      DB.put(OBJ_STORE_DIR_HANDLE, {
+      await DB.put(OBJ_STORE_DIR_HANDLE, {
         id: idHandle,
         descriptor: rawHandle,
       })
@@ -25,28 +26,34 @@ export const initFS = () => {
       console.error(err);
     }
   }
+
   const restoreAccess = async () => {
-    try {
-      const DB: AppDBInstance = await initDB()
-      const gotRecord: dirHandleTypes | undefined = await DB.get(OBJ_STORE_DIR_HANDLE, idHandle)
+    if (isRestoring) return isRestoring;
+    isRestoring = (async () => {
+      try {
+        const DB: AppDBInstance = await initDB()
+        const gotRecord: dirHandleTypes | undefined = await DB.get(OBJ_STORE_DIR_HANDLE, idHandle)
 
-      if(!gotRecord || !gotRecord.descriptor) {
-        status.value = `Pick a work dir`
-        return
-      }
+        if(!gotRecord || !gotRecord.descriptor) {
+          status.value = `Pick a work dir`
+          return
+        }
 
-      const handle = gotRecord.descriptor
-      dirHandle.value = handle
-      const currentPermission = await handle.queryPermission({ mode: 'readwrite' })
-      if(currentPermission === 'granted') {
-        status.value = handle.name
-      } else {
-        status.value = `Директория ${handle.name} найдена, но прав на доступ нет`
+        const handle = gotRecord.descriptor
+        dirHandle.value = handle
+        const currentPermission = await handle.queryPermission({ mode: 'readwrite' })
+        if(currentPermission === 'granted') {
+          status.value = handle.name
+        } else {
+          status.value = `Директория ${handle.name} найдена, но прав на доступ нет`
+        }
+      } catch(err) {
+        console.error(err);
+        status.value = `Выбери директорию заново`
       }
-    } catch(err) {
-      console.error(err);
-      status.value = `Выбери директорию заново`
-    }
+    })();
+
+    return isRestoring;
   }
 
   const activateAccess = async () => {
@@ -78,7 +85,11 @@ export const initFS = () => {
   }
 
   const readFile = async (fileName: string) => {
+    if (!dirHandle.value && isRestoring) {
+      await isRestoring;
+    }
     if (!dirHandle.value) return null
+
     try {
       const fileHandle = await dirHandle.value.getFileHandle(fileName)
       const file = await fileHandle.getFile()
@@ -100,7 +111,11 @@ export const initFS = () => {
   }
 
   const readDirContents = async () => {
+    if (!dirHandle.value && isRestoring) {
+      await isRestoring;
+    }
     if (!dirHandle.value) return []
+
     try {
       const items = []
       for await (const [name, handle] of dirHandle.value.entries()) {
@@ -122,7 +137,6 @@ export const initFS = () => {
     try {
       await dirHandle.value.removeEntry(name, { recursive: isDirectory })
       status.value = `${name} удале${isDirectory ? 'на' : 'н'}`
-      //
     } catch (err) {
       console.error(err)
       status.value = 'Ошибка удаления'
@@ -130,7 +144,9 @@ export const initFS = () => {
   }
 
   restoreAccess()
+
   return {
+    dirHandle,
     status,
     pickDirPath,
     restoreAccess,

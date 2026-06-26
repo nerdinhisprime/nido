@@ -8,7 +8,13 @@ const MUITheme = EditorView.theme({
     backgroundColor: "#1a1c1e",
     fontFamily: "JetBrains Mono, Fira Code, monospace",
     overflow: "hidden",
-    borderRadius: '12px'
+    borderRadius: '12px',
+    transition: "background-color 0.2s ease",
+    width: "99vw",
+    height: "90vh",
+  },
+  "&.cm-focused": {
+    backgroundColor: "#212327"
   },
   ".cm-scroller": { 
     lineHeight: "1.6",
@@ -18,7 +24,7 @@ const MUITheme = EditorView.theme({
     caretColor: "#aac7ff"
   },
   ".cm-gutters": {
-    backgroundColor: "#1a1c1e",
+    backgroundColor: "transparent", 
     color: "#8e9199",
     border: "none",
     paddingLeft: "8px"
@@ -27,9 +33,10 @@ const MUITheme = EditorView.theme({
     backgroundColor: "#2f3033"
   },
   ".cm-activeLineGutter": {
-    backgroundColor: "#2f3033",
+    backgroundColor: "#38393c",
     color: "#e3e2e6"
   },
+
   ".cm-selectionBackground, ::selection": {
     backgroundColor: "#3f4756 !important"
   },

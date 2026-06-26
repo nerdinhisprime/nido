@@ -11,33 +11,28 @@ interface GridItem {
 export const useGridNavigation = (getEditorView: () => EditorView | null) => {
   const { filesArr } = useUpdateTasksList();
   const metaarr = reactive<GridItem[][]>([]);
-
-  const currentCoords = reactive({
-    x: 0,
-    y: 0
-  });
-
+  const currentCoords = reactive({x: 0, y: 0});
   const gridContainer = ref<HTMLElement | null>(null);
-  const inputRef = ref<HTMLInputElement | null>(null);
+  //const inputRef = ref<HTMLInputElement | null>(null);
 
-  const initStaticRows = () => {
-    metaarr[1] = [{
-      id: 'global-input',
-      focus: () => {
-        inputRef.value?.focus();
-      }
-    }];
-    metaarr[2] = [{
-      id: 'editor',
-      focus: () => {
-        const view = getEditorView();
-        if (view) {
-          view.focus();
-        }
-      }
-    }];
-  };
-  initStaticRows();
+  //const initStaticRows = () => {
+  //  metaarr[1] = [{
+  //    id: 'global-input',
+  //    focus: () => {
+  //      inputRef.value?.focus();
+  //    }
+  //  }];
+  //  metaarr[2] = [{
+  //    id: 'editor',
+  //    focus: () => {
+  //      const view = getEditorView();
+  //      if (view) {
+  //        view.focus();
+  //      }
+  //    }
+  //  }];
+  //};
+  //initStaticRows();
 
   watch(filesArr, (newFiles) => {
     if (!newFiles || newFiles.length === 0) return;
@@ -80,13 +75,13 @@ export const useGridNavigation = (getEditorView: () => EditorView | null) => {
   useKeyPress({
     'ctrl+h': () => moveFocus(0, -1),
     'ctrl+l': () => moveFocus(0, 1),
-    'ctrl+j': () => moveFocus(1, 0),
-    'ctrl+k': () => moveFocus(-1, 0),
+    //'ctrl+j': () => moveFocus(1, 0),
+    //'ctrl+k': () => moveFocus(-1, 0),
   });
 
   return {
     metaarr,
-    inputRef,
+    //inputRef,
     gridContainer,
     onFocusCell
   };
