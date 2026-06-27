@@ -12,6 +12,4 @@ export {
 } from "./lib";
 
 // ./ui
-export {
-  AppDialog,
-} from "./ui";
+export { default } from "./ui";

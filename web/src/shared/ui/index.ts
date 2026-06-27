@@ -1,1 +1,1 @@
-export { default as AppDialog } from './AppDialog.vue'
+export { default } from './AppDialog.vue'

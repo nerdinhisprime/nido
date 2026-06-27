@@ -3,7 +3,7 @@ import { ref } from 'vue';
 
 const dialogRef = ref<HTMLDialogElement | null>(null)
 const open = () => dialogRef.value?.showModal()
-const close = () => dialogRef.value?.showModal()
+const close = () => dialogRef.value?.close()
 
 defineExpose({open, close,})
 </script>
