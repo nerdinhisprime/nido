@@ -1,4 +1,4 @@
-export var TELEPORT_TARGET = {
+export const TELEPORT_TARGET = {
   MODAL: '#app-modal-root',
   NOTIFICATION: '#app-notification-root',
-} as const;
+}

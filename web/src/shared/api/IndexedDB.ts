@@ -5,7 +5,7 @@ import {
   DB_VERSION,
   OBJ_STORE_MAIN,
   OBJ_STORE_DIR_HANDLE
-} from "./types/db.variables";
+} from "@shared/config";
 
 export const initDB = async (): Promise<AppDBInstance> => {
   return await openDB(DB_NAME, DB_VERSION, {

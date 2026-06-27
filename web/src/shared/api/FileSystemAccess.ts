@@ -1,7 +1,7 @@
 import { ref } from "vue"
 import { AppDBInstance, dirHandleTypes } from "./types/db.types"
 import { initDB } from "./IndexedDB"
-import { OBJ_STORE_DIR_HANDLE } from "./types/db.variables"
+import { OBJ_STORE_DIR_HANDLE } from "@shared/config"
 
 const idHandle = 'access'
 
@@ -94,10 +94,7 @@ export const initFS = () => {
       const fileHandle = await dirHandle.value.getFileHandle(fileName)
       const file = await fileHandle.getFile()
       return await file.text()
-    } catch (err) {
-      console.error('Ошибка чтения файла:', err)
-      return null
-    }
+    } catch (err) { return null }
   }
 
   const createDir = async (dirName: string) => {

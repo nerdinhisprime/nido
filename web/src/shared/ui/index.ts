@@ -1,5 +1,1 @@
-export { CustomDialog } from './custom-dialog'
-export { PickWorkDir } from './pick-work-dir'
-export { CreateTask } from './create-task'
-export { UITrashButton } from './ui-trash-button'
-export { UIFileEditor } from './ui-file-editor'
+export { default as AppDialog } from './AppDialog.vue'

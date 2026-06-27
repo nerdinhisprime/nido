@@ -1,12 +1,9 @@
 <script setup lang="ts">
-  import { PickWorkDir, CreateTask } from '@/shared';
+  import PickWorkDir from '@features/pick-work-dir';
 </script>
 
 <template>
   <nav>
-    <div>
-      <CreateTask />
-    </div>
     <PickWorkDir />
   </nav>
 </template>

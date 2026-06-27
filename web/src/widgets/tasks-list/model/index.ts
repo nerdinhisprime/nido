@@ -1,6 +1,10 @@
 import { reactive, ref, watch } from 'vue';
-import { useUpdateTasksList, useKeyPress } from '@/shared';
-import { EditorView } from 'codemirror';
+import {
+  useUpdateTasksList,
+  useKeyPress,
+  initFS,
+  useCodeMirror
+} from '@/shared';
 
 interface GridItem {
   id: string;
@@ -8,31 +12,14 @@ interface GridItem {
   focus: () => void;
 }
 
-export const useGridNavigation = (getEditorView: () => EditorView | null) => {
+export const useGridNavigation = () => {
   const { filesArr } = useUpdateTasksList();
+  const { readFile } = initFS();
+  const { fromState } = useCodeMirror();
+
   const metaarr = reactive<GridItem[][]>([]);
   const currentCoords = reactive({x: 0, y: 0});
   const gridContainer = ref<HTMLElement | null>(null);
-  //const inputRef = ref<HTMLInputElement | null>(null);
-
-  //const initStaticRows = () => {
-  //  metaarr[1] = [{
-  //    id: 'global-input',
-  //    focus: () => {
-  //      inputRef.value?.focus();
-  //    }
-  //  }];
-  //  metaarr[2] = [{
-  //    id: 'editor',
-  //    focus: () => {
-  //      const view = getEditorView();
-  //      if (view) {
-  //        view.focus();
-  //      }
-  //    }
-  //  }];
-  //};
-  //initStaticRows();
 
   watch(filesArr, (newFiles) => {
     if (!newFiles || newFiles.length === 0) return;
@@ -72,6 +59,17 @@ export const useGridNavigation = (getEditorView: () => EditorView | null) => {
     }
   };
 
+  const handleFileFocus = async (xIdx: number, fileName: string) => {
+    onFocusCell(0, xIdx);
+
+    const content = await readFile(fileName);
+
+    if (content !== null) {
+      fromState.fileContent = content;
+      fromState.fileName = fileName;
+    }
+  };
+
   useKeyPress({
     'ctrl+h': () => moveFocus(0, -1),
     'ctrl+l': () => moveFocus(0, 1),
@@ -81,8 +79,8 @@ export const useGridNavigation = (getEditorView: () => EditorView | null) => {
 
   return {
     metaarr,
-    //inputRef,
     gridContainer,
+    handleFileFocus,
     onFocusCell
   };
 };

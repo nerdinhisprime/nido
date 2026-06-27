@@ -18,7 +18,30 @@ const MUITheme = EditorView.theme({
   },
   ".cm-scroller": { 
     lineHeight: "1.6",
-    padding: "8px 0"
+    padding: "8px 0",
+    "&::-webkit-scrollbar": {
+      width: "10px",
+      height: "10px",
+    },
+    "&::-webkit-scrollbar-track": {
+      backgroundColor: "transparent",
+    },
+    "&::-webkit-scrollbar-thumb": {
+      backgroundColor: "#43473e",
+      borderRadius: "10px",
+      border: "2px solid #1a1c1e",
+      transition: "background-color 0.2s ease",
+    },
+    "&::-webkit-scrollbar-thumb:hover": {
+      backgroundColor: "#8e9199",
+    },
+    scrollbarWidth: "thin",
+    scrollbarColor: "#3f4756  transparent",
+  },
+  "&.cm-focused .cm-scroller": {
+    "&::-webkit-scrollbar-thumb": {
+      border: "2px solid #212327",
+    }
   },
   "&.cm-focused .cm-content": {
     caretColor: "#aac7ff"
@@ -36,7 +59,6 @@ const MUITheme = EditorView.theme({
     backgroundColor: "#38393c",
     color: "#e3e2e6"
   },
-
   ".cm-selectionBackground, ::selection": {
     backgroundColor: "#3f4756 !important"
   },
