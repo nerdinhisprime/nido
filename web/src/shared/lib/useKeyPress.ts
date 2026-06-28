@@ -11,13 +11,10 @@ export const useKeyPress = (actions: ShortcutActions) => {
     const shortcut = modifiers.join('+')
     if(actions[shortcut]) {
       event.preventDefault()
+      event.stopPropagation()
       actions[shortcut](event)
     }
   }
-  onMounted(() => {
-    window.addEventListener('keydown', handleKeyDown)
-  })
-  onUnmounted(() => {
-    window.removeEventListener('keydown', handleKeyDown)
-  })
+  onMounted(() => window.addEventListener('keydown', handleKeyDown, { capture: true }))
+  onUnmounted(() => window.removeEventListener('keydown', handleKeyDown, { capture: true }))
 }

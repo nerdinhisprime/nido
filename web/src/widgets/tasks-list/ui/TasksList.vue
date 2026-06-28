@@ -7,7 +7,7 @@ const {
   metaarr,
   gridContainer,
   modalRef,
-  handleFileFocus,
+  onFocusCell,
   delFile,
 } = useGridNavigation();
 
@@ -22,7 +22,7 @@ const {
           :key="value.label"
           :fileName="value.label as string"
           :autofocus="xIdx === 0"
-          @focus="handleFileFocus(xIdx as number, value.label as string)"
+          @focus="onFocusCell(0, xIdx, value.label)"
         />
       </div>
     </section>

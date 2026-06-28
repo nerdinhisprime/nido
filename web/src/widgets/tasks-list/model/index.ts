@@ -17,10 +17,7 @@ interface GridItem {
 export const useGridNavigation = () => {
   const { filesArr, updateList } = useUpdateTasksList();
   const { fromState } = useCodeMirror();
-  const {
-    readFile,
-    delEntry
-  } = initFS();
+  const { readFile, delEntry } = initFS();
 
   const metaarr = reactive<GridItem[][]>([]);
   const currentCoords = reactive({x: 0, y: 0});
@@ -42,7 +39,8 @@ export const useGridNavigation = () => {
     }));
   }, { immediate: true, deep: true });
 
-  const onFocusCell = (yIdx: number, xIdx: number) => {
+  const onFocusCell = (yIdx: number, xIdx: number, filename: string = '') => {
+    fromState.fileName = filename
     currentCoords.y = yIdx;
     currentCoords.x = xIdx;
   };
