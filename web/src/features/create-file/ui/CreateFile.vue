@@ -6,17 +6,18 @@
   const modalRef = ref<InstanceType<typeof AppDialog> | null>()
   const inputStr = ref<string>('')
 
-  useKeyPress({'ctrl+d': () => modalRef.value?.open()})
+  useKeyPress({'ctrl+m': () => modalRef.value?.open()})
 </script>
 
 <template>
   <AppDialog ref="modalRef">
     <div class="file-name-form__container">
-      <h3>file name:</h3>
+      <h3>make a file:</h3>
       <section>
         <input
           v-model="inputStr"
           type="text"
+          placeholder="file name"
           @keyup.enter="
             writeFile(inputStr, '');
             modalRef?.close();

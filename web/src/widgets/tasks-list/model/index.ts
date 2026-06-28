@@ -1,9 +1,11 @@
 import { reactive, ref, watch } from 'vue';
-import {
+import
+  AppDialog,
+{
   useUpdateTasksList,
   useKeyPress,
   initFS,
-  useCodeMirror
+  useCodeMirror,
 } from '@/shared';
 
 interface GridItem {
@@ -13,13 +15,17 @@ interface GridItem {
 }
 
 export const useGridNavigation = () => {
-  const { filesArr } = useUpdateTasksList();
-  const { readFile } = initFS();
+  const { filesArr, updateList } = useUpdateTasksList();
   const { fromState } = useCodeMirror();
+  const {
+    readFile,
+    delEntry
+  } = initFS();
 
   const metaarr = reactive<GridItem[][]>([]);
   const currentCoords = reactive({x: 0, y: 0});
   const gridContainer = ref<HTMLElement | null>(null);
+  const modalRef = ref<InstanceType<typeof AppDialog>>()
 
   watch(filesArr, (newFiles) => {
     if (!newFiles || newFiles.length === 0) return;
@@ -70,9 +76,16 @@ export const useGridNavigation = () => {
     }
   };
 
+  const delFile = async () => {
+    await delEntry(fromState.fileName)
+    modalRef.value?.close()
+    await updateList()
+  }
+
   useKeyPress({
     'ctrl+h': () => moveFocus(0, -1),
     'ctrl+l': () => moveFocus(0, 1),
+    'ctrl+d': () => fromState.fileName !== '' ? modalRef.value?.open() : null,
     //'ctrl+j': () => moveFocus(1, 0),
     //'ctrl+k': () => moveFocus(-1, 0),
   });
@@ -80,7 +93,9 @@ export const useGridNavigation = () => {
   return {
     metaarr,
     gridContainer,
+    modalRef,
     handleFileFocus,
-    onFocusCell
+    onFocusCell,
+    delFile,
   };
 };

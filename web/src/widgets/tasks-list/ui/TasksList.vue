@@ -1,11 +1,14 @@
 <script setup lang="ts">
 import { useGridNavigation } from '../model';
 import EditFile from '@features/edit-file';
+import AppDialog from '@/shared'
 
 const {
   metaarr,
   gridContainer,
+  modalRef,
   handleFileFocus,
+  delFile,
 } = useGridNavigation();
 
 </script>
@@ -24,6 +27,17 @@ const {
       </div>
     </section>
   </article>
+  <AppDialog ref="modalRef">
+    <dir class="delite-file-menu">
+      <p>trash current file?</p>
+      <div>
+        <button
+          @click="delFile"
+          @keydown.y="delFile"
+        >[Y]es</button>
+      </div>
+    </dir>
+  </AppDialog>
 </template>
 
 <style scoped>
@@ -38,5 +52,11 @@ const {
   display: flex;
   margin: auto;
   gap: 10px;
+}
+.delite-file-menu {
+  margin: 0;
+  padding: 0;
+  background-color: #1a1c1e;
+  color: #e3e2e6
 }
 </style>

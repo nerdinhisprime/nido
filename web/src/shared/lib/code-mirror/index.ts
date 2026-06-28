@@ -9,7 +9,7 @@ export const useCodeMirror = () => {
   const editorContainer = ref<HTMLDivElement | null>(null)
 
   const fromState = reactive({
-    fileName: 'file.md',
+    fileName: '',
     fileContent: '',
   })
 
